@@ -8,17 +8,27 @@
     tools:context=".MainActivity2"
     tools:deviceIds="wear">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/inner_frame_layout_padding"
+        android:gravity="bottom"
+        android:orientation="vertical"
         app:layout_boxedEdges="all">
 
         <TextView
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="second" />
+            android:text="Click below to alert Beach Safety System"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"
+            />
 
-    </FrameLayout>
+        <Button
+            android:id="@+id/sendAlert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Send Alert"></Button>
+    </LinearLayout>
 </androidx.wear.widget.BoxInsetLayout>
