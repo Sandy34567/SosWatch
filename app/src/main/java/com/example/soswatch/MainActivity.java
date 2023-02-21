@@ -105,8 +105,16 @@ public class MainActivity extends Activity {
                 try {
                     JSONObject obj = new JSONObject(String.valueOf(response));
                     String r_msg = obj.getString("msg");
-                    Log.d("ars", response.toString());
+                    boolean success = obj.getBoolean("success");
                     Toast.makeText(MainActivity.this, r_msg, Toast.LENGTH_SHORT).show();
+                    if(success) {
+                        Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                        intent.putExtra("token",id);
+                        startActivity(intent);
+
+                    }
+
+                    Log.d("ars", response.toString());
 
                 } catch (Exception e) {
                     e.printStackTrace();
