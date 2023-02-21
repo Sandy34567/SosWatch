@@ -81,4 +81,9 @@ public class MainActivity2 extends Activity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+    }
 }

@@ -1,7 +1,11 @@
 package com.example.soswatch;
 
+import static android.app.PendingIntent.getActivity;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,7 +35,8 @@ public class MainActivity extends Activity {
     private ActivityMainBinding binding;
 
     private static final int RC_SIGN_IN = 9001;
-
+    private  String id = "";
+    SharedPreferences.Editor myEditPref;
     private GoogleSignInClient mSignInClient;
 
     @Override
@@ -41,11 +46,22 @@ public class MainActivity extends Activity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+//        TODO
+        SharedPreferences sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
+        myEditPref = sharedPref.edit();
+
         GoogleSignInOptions options =
                 new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                         .build();
 
         mSignInClient = GoogleSignIn.getClient(this, options);
+
+        id = sharedPref.getString("token","");
+        if(!id.equals("")) {
+            Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+            intent.putExtra("token",id);
+            startActivity(intent);
+        }
 
         findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +91,7 @@ public class MainActivity extends Activity {
                 String givenName = acct.getGivenName();
                 String idToken = acct.getIdToken();
                 String familyName = acct.getFamilyName();
-                String id = acct.getId();
+                id = acct.getId();
                 String email = acct.getEmail();//110022754939632693383
 
                 Log.d("gsign:",fullName+" ,"+givenName+" , "+familyName+" ,"+idToken+" , "+id+" , "+email);
@@ -112,6 +128,7 @@ public class MainActivity extends Activity {
                         intent.putExtra("token",id);
                         startActivity(intent);
 
+                        myEditPref.putString("token", id);
                     }
 
                     Log.d("ars", response.toString());
