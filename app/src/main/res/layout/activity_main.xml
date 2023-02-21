@@ -7,67 +7,18 @@
     tools:context=".MainActivity"
     tools:deviceIds="wear">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/inner_frame_layout_padding"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_boxedEdges="all">
-<androidx.core.widget.NestedScrollView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
-    <EditText
-        android:id="@+id/edit_name"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="Enter your Name"
-        android:imeOptions="actionDone"
-        android:singleLine="true"
-        >
-    </EditText>
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/edit_gmail"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="Enter your Gmail"
-        android:imeOptions="actionDone"
-        android:singleLine="true"
-        >
-    </EditText>
-
-    <EditText
-        android:id="@+id/edit_phone"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="Mobile No."
-        android:imeOptions="actionDone"
-        android:singleLine="true"
-        >
-    </EditText>
-
-    <EditText
-        android:id="@+id/edit_age"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="whats your Age?"
-        android:imeOptions="actionDone"
-        android:singleLine="true"
-        >
-    </EditText>
-
-</LinearLayout>
-</androidx.core.widget.NestedScrollView>
-
-    </FrameLayout>
+    </LinearLayout>
 </androidx.wear.widget.BoxInsetLayout>

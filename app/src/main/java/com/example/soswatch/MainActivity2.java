@@ -49,8 +49,8 @@ public class MainActivity2 extends Activity {
 
                 Map<String, String> params = new HashMap();
                 params.put("token","12345");
-                params.put("latitude","15.1254");
-                params.put("longitude","45.1254");
+                params.put("latitude","7777777");
+                params.put("longitude","999999");
 
                 JSONObject parameters = new JSONObject(params);
 
