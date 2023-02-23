@@ -56,6 +56,8 @@ public class MainActivity2 extends Activity{
     String latitude ="",longitude="";
     Location mlocation;
     List<Address> addresses;
+    String full_Address = "";
+    String city_Name = "";
     private Button sendAlrtBtn;
     private ActivityMain2Binding binding;
 
@@ -81,6 +83,10 @@ public class MainActivity2 extends Activity{
            addresses = geocoder.getFromLocation(mlocation.getLatitude(), mlocation.getLongitude(), 1);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+        if (addresses!=null){
+            full_Address = addresses.get(0).getAddressLine(0);
+            city_Name =addresses.get(0).getLocality();
         }
 
         // Use getLastLocation to get the last known location
