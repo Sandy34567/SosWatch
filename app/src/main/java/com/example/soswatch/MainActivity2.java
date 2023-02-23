@@ -104,6 +104,9 @@ public class MainActivity2 extends Activity{
                 if(mlocation!=null){
              params.put("latitude", String.valueOf(mlocation.getLatitude()));
              params.put("longitude", String.valueOf(mlocation.getLongitude()));
+                }else{
+                    params.put("latitude", "99.999");
+                    params.put("longitude", "99.999");
                 }
 
                 JSONObject parameters = new JSONObject(params);
