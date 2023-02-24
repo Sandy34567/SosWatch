@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -41,17 +42,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 public class MainActivity2 extends Activity{
 
-    private TextView mTextView;
+    private TextView mTextView,loglogout_btn;
     private FusedLocationProviderClient fusedLocationProviderClient;
     String latitude ="",longitude="";
     Location mlocation;
@@ -60,6 +67,7 @@ public class MainActivity2 extends Activity{
     String city_Name = "";
     private Button sendAlrtBtn;
     private ActivityMain2Binding binding;
+    private GoogleSignInClient mSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,27 +81,33 @@ public class MainActivity2 extends Activity{
         String token_id = intent.getStringExtra("token");
 
 //        mTextView = binding.text;
+        loglogout_btn = binding.logoutBtn;
 
         sendAlrtBtn = binding.sendAlert;
         // Request location updates
         getLastLocation();
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        GoogleSignInOptions options =
+                new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .build();
 
-        try {
-           addresses = geocoder.getFromLocation(mlocation.getLatitude(), mlocation.getLongitude(), 1);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        if (addresses!=null){
-            full_Address = addresses.get(0).getAddressLine(0);
-            city_Name =addresses.get(0).getLocality();
-        }
+        mSignInClient = GoogleSignIn.getClient(this, options);
 
         // Use getLastLocation to get the last known location
 
         sendAlrtBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                try {
+                    addresses = geocoder.getFromLocation(mlocation.getLatitude(), mlocation.getLongitude(), 1);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                if (addresses!=null){
+                    full_Address = addresses.get(0).getAddressLine(0);
+                    city_Name =addresses.get(0).getLocality();
+                }
                 String url = "https://app.arslaan.link/api/beachAlert";
 //                String url = "http://localhost/misc_app/public/api/beachAlert";
 
@@ -131,6 +145,20 @@ public class MainActivity2 extends Activity{
                     }}) {};
                 requestQueue.add(stringRequest);
                 stringRequest.setShouldCache(false);
+            }
+        });
+        loglogout_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Intent intent1 = new Intent(MainActivity2.this,MainActivity.class);
+                        Toast.makeText(MainActivity2.this,"Sign Out",Toast.LENGTH_SHORT).show();
+                        startActivity(intent1);
+                    }
+                });
+
             }
         });
     }
